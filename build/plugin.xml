@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<plugin xmlns="http://www.urbancode.com/PluginXMLSchema_v1" xmlns:server="http://www.urbancode.com/PluginServerXMLSchema_v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <header>
+    <identifier id="TrasferFiles" name="TrasferFiles" version="5"/>
+    <description>
+      
+	  </description>
+    <tag>Tools/Custom</tag>
+  </header>
+  <step-type name="Cargar Artefactos a UCD">
+    <description>"Crea una version temporal en un componente determinado y añade los archivos que se deseen"</description>
+   <properties>
+    <property name="udclientPath" required="true">
+      <property-ui default-value="/opt/bm-ucd/agent/opt/udclient" description="Directorio que contiene el udclient" label="udclient Path" type="textBox"/>
+    </property>
+     <property name="base" required="true">
+       <property-ui description="Directorio que contiene los artefactos a cargar" label="Directorio Base" type="textBox"/>
+     </property>
+     <property name="included" required="true">
+       <property-ui description="Directorio que contiene los artefactos a cargar" label="Incluir" type="textAreaBox" default-value="**/*"/>
+     </property>
+     <property name="user" required="true">
+       <property-ui default-value="admin" description="Usuario UCD" label="Usuario" type="textBox"/>
+     </property>
+     <property name="pass" required="true">
+       <property-ui description="Contraseña UCD" label="Contraseña" type="secureBox"/>
+     </property>
+     <property name="url" required="true">
+       <property-ui description="URL UCD" label="URL UCD" type="textBox"/>
+     </property>
+     <property name="component" required="true">
+       <property-ui default-value="${p:component.name}" description="Nombre del componente" label="Componente" type="textBox"/>
+     </property>
+     <property name="vName" required="false">
+       <property-ui default-value="temp" description="Nombre de la version a crear" label="Nombre de version" type="textBox"/>
+     </property>
+    </properties>
+    <!-- This is the standard post processing script. It sets the step to Success if the exit code
+    of the process was 0. Otherwise, the step fails. In order for a step to run correctly, it must
+    have a post processing script and that post processing script must set the status property
+    based off of the exit code. -->
+    <post-processing><![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]></post-processing>
+    <!--The syntax of the command element is such that each argument goes on its own line.  
+    The arg attribute can be "value", "path", or "file". So this command will be:
+    ${GROOVY_HOME}/bin/groovy -cp src cmd.groovy ${PLUGIN_INPUT_PROPS} ${PLUGIN_OUTPUT_PROPS} -->
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="java/example.jar:lib/gson-2.2.4.jar"/>
+      <arg file="transFile.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+    <step-type name="Descargar Artefactos desde UCD">
+    <description>"Descarga artefactos de una version temporal"</description>
+   <properties>
+    <property name="udclientPath" required="true">
+      <property-ui default-value="/opt/bm-ucd/agent/opt/udclient" description="Directorio que contiene el udclient" label="udclient Path" type="textBox"/>
+    </property>
+     <property name="downloadPath" required="true">
+       <property-ui description="Directorio donde se descargaran los artefactos" label="Directorio de descarga" type="textBox"/>
+     </property>
+     <property name="includes" required="true">
+       <property-ui description="Archivos a descomprimir" label="Incluir" type="textAreaBox" default-value="**/*"/>
+     </property>
+     <property name="excludes">
+       <property-ui description="Archivos a excluir" label="Excluir" type="textAreaBox"/>
+     </property>
+     <property name="user" required="true">
+       <property-ui default-value="admin" description="Usuario UCD" label="Usuario" type="textBox"/>
+     </property>
+     <property name="pass" required="true">
+       <property-ui description="Contraseña UCD" label="Contraseña" type="secureBox"/>
+     </property>
+     <property name="url" required="true">
+       <property-ui description="URL UCD" label="URL UCD" type="textBox"/>
+     </property>
+     <property name="component" required="true">
+       <property-ui default-value="${p:component.name}" description="Nombre del componente" label="Componente" type="textBox"/>
+     </property>
+     <property name="vName" required="false">
+       <property-ui default-value="temp" description="Nombre de la version a crear" label="Nombre de version" type="textBox"/>
+     </property>
+    </properties>
+    <!-- This is the standard post processing script. It sets the step to Success if the exit code
+    of the process was 0. Otherwise, the step fails. In order for a step to run correctly, it must
+    have a post processing script and that post processing script must set the status property
+    based off of the exit code. -->
+    <post-processing><![CDATA[
+        if (properties.get("exitCode") != 0) {
+            properties.put(new java.lang.String("Status"), new java.lang.String("Failure"));
+        }
+        else {
+            properties.put("Status", "Success");
+        }
+     ]]></post-processing>
+    <!--The syntax of the command element is such that each argument goes on its own line.  
+    The arg attribute can be "value", "path", or "file". So this command will be:
+    ${GROOVY_HOME}/bin/groovy -cp src cmd.groovy ${PLUGIN_INPUT_PROPS} ${PLUGIN_OUTPUT_PROPS} -->
+    <command program="${GROOVY_HOME}/bin/groovy">
+      <arg value="-cp"/>
+      <arg path="java/example.jar:lib/gson-2.2.4.jar"/>
+      <arg file="downLoad.groovy"/>
+      <arg file="${PLUGIN_INPUT_PROPS}"/>
+      <arg file="${PLUGIN_OUTPUT_PROPS}"/>
+    </command>
+  </step-type>
+  
+</plugin>
