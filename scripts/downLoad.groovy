@@ -3,18 +3,18 @@ import com.urbancode.air.CommandHelper;
 import groovy.json.JsonOutput
 import groovyx.net.http.*
 import org.apache.http.*
-/*import groovyx.net.http.RESTClient
+import groovyx.net.http.RESTClient
 import org.apache.http.conn.ssl.SSLSocketFactory
-import org.apache.http.conn.scheme.Scheme*/
-//import groovyx.net.http.HttpResponseException
-//import groovyx.net.http.ContentType.*
-//import groovyx.net.http.Method.*
+import org.apache.http.conn.scheme.Scheme
+import groovyx.net.http.HttpResponseException
+import groovyx.net.http.ContentType.*
+import groovyx.net.http.Method.*
 import javax.net.ssl.X509TrustManager
 import javax.net.ssl.SSLContext
 import java.security.cert.X509Certificate
 import javax.net.ssl.TrustManager
 import java.security.SecureRandom
-//import org.apache.http.conn.scheme.SchemeRegistry
+import org.apache.http.conn.scheme.SchemeRegistry
 
 def apTool = new AirPluginTool(this.args[0], this.args[1])
 def props = apTool.getStepProperties();
